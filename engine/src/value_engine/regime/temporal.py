@@ -21,6 +21,7 @@ from pydantic import BaseModel, ConfigDict
 from ..errors import RegimeIndefinido
 
 _ARQUIVO_SEMENTE = "regime_temporal.yaml"
+_ARQUIVO_CENARIOS = "cenarios_ec136.yaml"
 
 
 class JanelaRegime(BaseModel):
@@ -93,3 +94,18 @@ def carregar_regime_temporal(dados: dict[str, Any] | None = None) -> RegimeTempo
         )
         dados = yaml.safe_load(texto)
     return RegimeTemporal.model_validate(dados)
+
+
+def carregar_metadados_cenarios_ec136() -> list[dict[str, Any]]:
+    """Metadados das três teses da lacuna EC 136 (id, nome, fundamento, ressalva).
+
+    As TAXAS acumuladas de cada cenário não vivem aqui — vêm das séries oficiais,
+    injetadas pela api em tempo de cálculo. Este loader dá só a moldura jurídica.
+    """
+    texto = (
+        resources.files("value_engine.regime")
+        .joinpath(_ARQUIVO_CENARIOS)
+        .read_text(encoding="utf-8")
+    )
+    dados = yaml.safe_load(texto)
+    return list(dados["cenarios"])

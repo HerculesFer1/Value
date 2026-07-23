@@ -94,8 +94,9 @@ def test_totais_ao_centavo() -> None:
     assert res.total_principal == Decimal(dados["totais_principal"]["atualizado"])
     assert res.honorarios == Decimal(dados["honorarios"]["honorarios"])
     assert res.total_geral == Decimal(dados["total_geral"])
-    # corrige o defeito nº 3: total normalizado é 15.642,83, não 15.642,84
-    assert res.total_geral == Decimal("15642.83")
+    # Selic padronizada em 55,3103% para todas as verbas (ADR 0004): total
+    # normalizado é 15.642,84 (o paradigma trazia 15.642,83 com honorários a 55,3100%).
+    assert res.total_geral == Decimal("15642.84")
 
 
 def test_soma_das_parcelas_igual_ao_total() -> None:

@@ -50,17 +50,25 @@
     "fator_correcao": "1.8101960511",
     "taxa_juros_percent": "2.7775",
     "taxa_juros_nota": "Marco de juros dos honorários diverge do principal (48,9165%) — defeito nº 1; parâmetro explícito.",
-    "taxa_selic_percent": "55.3100",
-    "taxa_selic_nota": "Defeito nº 6 (observado na Fase 2): o paradigma usou a Selic a 2 casas (55,3100%) nos honorários e 55,3103% no principal — inconsistência de precisão da MESMA Selic. Padronizar a precisão é decisão pendente; ver ADR 0003. Com 55,3103% aqui, honorários=2.889,51 e total=15.642,84.",
+    "taxa_selic_percent": "55.3103",
+    "taxa_selic_nota": "Defeito nº 6 (Fase 2): o paradigma usou a Selic a 2 casas (55,3100%) nos honorários e 55,3103% no principal. DECISÃO: padronizar em 55,3103% para todas as verbas (ADR 0004). Valores abaixo já são os NORMALIZADOS.",
     "corrigido": "9050.98",
     "juros": "251.39",
     "base_selic": "9302.37",
-    "selic": "5145.14",
-    "atualizado": "14447.51",
-    "honorarios": "2889.50"
+    "selic": "5145.17",
+    "atualizado": "14447.54",
+    "honorarios": "2889.51",
+    "valores_originais_paradigma": {
+      "selic": "5145.14",
+      "atualizado": "14447.51",
+      "honorarios": "2889.50",
+      "nota": "Valores da planilha original (Selic a 55,3100% nos honorários). Substituídos pela padronização em 55,3103%."
+    }
   },
 
-  "total_geral": "15642.83",
+  "total_geral": "15642.84",
+  "total_geral_nota": "Total NORMALIZADO (Selic padronizada em 55,3103% para todas as verbas — ADR 0004). O total original do paradigma era 15.642,83, obtido com a Selic dos honorários a 55,3100%. Ver defeito nº 3 e o ADR 0004: sob precisão única, o total correto é 15.642,84.",
+  "total_geral_original_paradigma": "15642.83",
 
   "defeitos_do_paradigma_a_corrigir": [
     {

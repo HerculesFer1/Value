@@ -7,6 +7,16 @@ Nunca codifique regra normativa em `if` (§14).
 
 from __future__ import annotations
 
-from .temporal import JanelaRegime, RegimeTemporal, carregar_regime_temporal
+from .temporal import (
+    JanelaRegime,
+    RegimeTemporal,
+    carregar_metadados_cenarios_ec136,
+    carregar_regime_temporal,
+)
 
-__all__ = ["JanelaRegime", "RegimeTemporal", "carregar_regime_temporal"]
+__all__ = [
+    "JanelaRegime",
+    "RegimeTemporal",
+    "carregar_metadados_cenarios_ec136",
+    "carregar_regime_temporal",
+]

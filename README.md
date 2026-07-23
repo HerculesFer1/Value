@@ -25,13 +25,17 @@ com a Selic diária). A metade IPCA-E depende da tabela autoritativa do CJF — 
 abaixo.
 
 O **motor** (Fase 2) já calcula o PASEP e reproduz o caso-paradigma **ao centavo**:
-6/6 parcelas, total geral **15.642,83** (corrige o defeito nº 3, que trazia
-15.642,84). Correção, juros simples, aplicação da Selic, arredondamento por política
-e prescrição (Súmula 85 STJ) estão implementados e testados (31 testes, incl.
-propriedades: soma=total, invariância à ordem, determinismo, idempotência do corte).
-Falta a outra metade do aceite da Fase 2: os 300+ casos sintéticos contra a
-calculadora do CJF. O orquestrador genérico do §8 (resolução por janelas de regime,
-cenários EC 136) segue como esqueleto.
+6/6 parcelas + total geral **15.642,84**, com a Selic padronizada em 55,3103% para
+todas as verbas ([ADR 0004](docs/adr/0004-aritmetica-do-motor-e-arredondamento.md)).
+Correção, juros simples, aplicação da Selic, arredondamento por política e prescrição
+(Súmula 85 STJ) estão implementados e testados. Os **cenários da lacuna EC 136/2025**
+(Fase 3) também estão construídos: o motor computa as três teses A/B/C com delta em
+reais e **não escolhe** a principal ([ADR 0005](docs/adr/0005-cenarios-ec136-motor-nao-escolhe.md)).
+Suíte: **36 testes verdes**, incl. propriedades (soma=total, invariância à ordem,
+determinismo, idempotência do corte) e a recusa de número único em ponto
+controvertido. Falta a outra metade do aceite da Fase 2 (300+ casos sintéticos vs
+calculadora do CJF) e os 8 parâmetros de política do §5 (Fase 3). O orquestrador
+genérico do §8 segue como esqueleto.
 
 O roteiro completo está em [`PROMPT_VALUE.md`](PROMPT_VALUE.md) — a especificação
 que origina o projeto. As fases de execução estão na seção 13 desse documento.
@@ -40,8 +44,8 @@ que origina o projeto. As fases de execução estão na seção 13 desse documen
 |---|---|---|
 | 0 | Scaffold do monorepo, tooling, contratos, fixture nº 1 | **feito** |
 | 1 | `indices/` — coletores de séries oficiais versionadas | **em curso** — BCB/SGS feito e validado; CJF pendente da tabela |
-| 2 | `engine/` — regime temporal, correção, juros, prescrição | **em curso** — paradigma bate ao centavo (15.642,83); faltam os 300+ casos sintéticos vs CJF |
-| 3 | política do escritório definida + cenários EC 136 | **bloqueado** (ver abaixo) |
+| 2 | `engine/` — regime temporal, correção, juros, prescrição | **em curso** — paradigma bate ao centavo (15.642,84, Selic padronizada); faltam os 300+ casos sintéticos vs CJF |
+| 3 | política do escritório definida + cenários EC 136 | **em curso** — cenários A/B/C construídos e testados; faltam os 8 parâmetros de política (§5) |
 | 4 | `api/` + modelo de dados + papéis e quatro olhos | a fazer |
 | 5 | geração de PDF e XLSX | a fazer |
 | 6 | `web/` com o design da seção 11 | a fazer |

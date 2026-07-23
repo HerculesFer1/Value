@@ -10,6 +10,7 @@ viram parâmetro. Um ADR não se apaga: quando superado, cria-se um novo com sta
 | [0002](0002-defeitos-do-paradigma.md) | Cinco defeitos do caso-paradigma a corrigir | aceito |
 | [0003](0003-acumulacao-selic-soma-simples.md) | Acumulação da Selic (EC 113) por soma simples; fonte e precisão | aceito |
 | [0004](0004-aritmetica-do-motor-e-arredondamento.md) | Aritmética do motor e momento de arredondamento | aceito |
+| [0005](0005-cenarios-ec136-motor-nao-escolhe.md) | Lacuna EC 136/2025: o motor apresenta cenários, nunca escolhe | aceito |
 
 ## Pendentes de abertura (conforme as fases avançam)
 

@@ -47,10 +47,13 @@ Se padronizarmos a precisão alta (55,3103%) também nos honorários, o resultad
 consistente é **2.889,51** e total **15.642,84**. Ou seja: o total "correto"
 declarado (15.642,83) embute a inconsistência de precisão do paradigma.
 
-**Decisão pendente (jurídica/política):** padronizar a Selic numa única precisão
-(recomendado: a de série diária, 55,3103%, para todas as verbas) e aceitar que o
-total normalizado passa a 15.642,84; ou preservar a precisão do paradigma. Enquanto
-não decidido, a fixture declara ambos os números e o motor honra o valor declarado.
+**Decisão tomada (2026-07-23):** padronizar a Selic numa **única precisão —
+55,3103%** (série diária) para todas as verbas. Consequência: os honorários passam a
+**2.889,51** e o total normalizado a **15.642,84**. Isso supera a afirmação do §10
+(defeito nº 3) de que o total correto seria 15.642,83 — aquele número dependia da
+precisão dividida do paradigma; sob precisão única, o total correto é 15.642,84. A
+fixture registra os valores normalizados como alvo e preserva os originais do
+paradigma em `valores_originais_paradigma` para rastreabilidade.
 
 ## Consequências
 
