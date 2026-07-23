@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "descricao": "Fatores de correção IPCA-E (CJF) do caso-paradigma, ano-base -> dez/2021. INTERINO até a ingestão da tabela autoritativa do CJF (Res. 990/2026).",
+    "origem": "Reproduzidos pelo advogado no caso-paradigma (processo 0000392-65.2011.8.18.0037). NÃO são inferência estatística nem recálculo próprio de IPCA-E (§7).",
+    "fonte_definitiva_pendente": "Manual CJF, Resolução CJF nº 990 de 13/07/2026",
+    "acumulacao_ate": "2021-12",
+    "valores_como_string": "Fatores como string para nunca transitarem por float."
+  },
+  "fatores_ipca_e": [
+    {"ano_base": 2006, "fator": "2.3492924649"},
+    {"ano_base": 2007, "fator": "2.2711258509"},
+    {"ano_base": 2008, "fator": "2.1447909444"},
+    {"ano_base": 2009, "fator": "2.0447005225"},
+    {"ano_base": 2010, "fator": "1.9462066354"},
+    {"ano_base": 2011, "fator": "1.8265282269"}
+  ]
+}

@@ -8,6 +8,7 @@ viram parâmetro. Um ADR não se apaga: quando superado, cria-se um novo com sta
 |---|---|---|
 | [0001](0001-arquitetura-em-camadas.md) | Arquitetura em camadas com motor puro | aceito |
 | [0002](0002-defeitos-do-paradigma.md) | Cinco defeitos do caso-paradigma a corrigir | aceito |
+| [0003](0003-acumulacao-selic-soma-simples.md) | Acumulação da Selic (EC 113) por soma simples; fonte e precisão | aceito |
 
 ## Pendentes de abertura (conforme as fases avançam)
 

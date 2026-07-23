@@ -16,10 +16,14 @@ de honorários.
 
 ## Estado atual
 
-**Fase 0 — scaffold.** Estrutura, ferramentas, contratos e fixture-paradigma no
-lugar. A lógica de cálculo jurídica ainda **não** foi implementada: os pontos onde
-ela entra são esqueletos tipados que lançam `NotImplementedError` com referência à
-fase em que serão preenchidos e validados.
+**Fase 1 em curso.** Scaffold (Fase 0) completo. Os coletores do BCB/SGS já coletam
+de verdade, com armazenamento append-only versionado (fonte, url, versão, hash) e
+recusa de sobrescrever. O critério de aceite da Selic foi reproduzido: soma simples
+dez/2021→jun/2026 = **55,3100%** (paradigma 55,3103%; resíduo de 0,0003pp
+documentado no [ADR 0003](docs/adr/0003-acumulacao-selic-soma-simples.md), a resolver
+com a Selic diária). A metade IPCA-E depende da tabela autoritativa do CJF — ver
+abaixo. A lógica de cálculo do **motor** segue não implementada (Fase 2): os pontos
+onde ela entra são esqueletos tipados que lançam `NotImplementedError`.
 
 O roteiro completo está em [`PROMPT_VALUE.md`](PROMPT_VALUE.md) — a especificação
 que origina o projeto. As fases de execução estão na seção 13 desse documento.
@@ -27,7 +31,7 @@ que origina o projeto. As fases de execução estão na seção 13 desse documen
 | Fase | Entrega | Estado |
 |---|---|---|
 | 0 | Scaffold do monorepo, tooling, contratos, fixture nº 1 | **feito** |
-| 1 | `indices/` — coletores de séries oficiais versionadas | a fazer |
+| 1 | `indices/` — coletores de séries oficiais versionadas | **em curso** — BCB/SGS feito e validado; CJF pendente da tabela |
 | 2 | `engine/` — regime temporal, correção, juros, prescrição | a fazer |
 | 3 | política do escritório definida + cenários EC 136 | **bloqueado** (ver abaixo) |
 | 4 | `api/` + modelo de dados + papéis e quatro olhos | a fazer |
