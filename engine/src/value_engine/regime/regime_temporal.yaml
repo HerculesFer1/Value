@@ -1,0 +1,74 @@
+# =============================================================================
+# regime_temporal — linha do tempo normativa da correção monetária e dos juros
+# de mora sobre créditos contra a Fazenda Pública (PROMPT_VALUE.md §3).
+#
+# Isto é DADO versionado, não código. Cada janela tem vigência [ini, fim].
+# Alterar a norma = novo registro aqui (INSERT), com bump de `versao_tabela`.
+# NUNCA sobrescreva uma janela: acrescente.
+#
+# `regra_correcao` / `regra_juros` são identificadores de estratégia que o motor
+# resolve — não fórmulas embutidas. `status` = "vigente" | "controvertido".
+# =============================================================================
+
+versao_tabela: 1
+escopo: fazenda_publica_municipal        # TJPI, Justiça Comum estadual
+data_referencia: 2026-07-23              # última verificação normativa
+
+janelas:
+  - id: ate_2009_06_29
+    vigencia_ini: null                   # null = sem limite inferior
+    vigencia_fim: 2009-06-29
+    regra_correcao: ipca_e_cjf
+    regra_juros: mora_simples_0_5_am      # 0,5% a.m. simples
+    status: vigente
+    fundamento: >-
+      art. 1º-F Lei 9.494/97 (red. MP 2.180-35/2001); Tema 810/STF
+
+  - id: 2009_06_30_a_2021_12_08
+    vigencia_ini: 2009-06-30
+    vigencia_fim: 2021-12-08
+    regra_correcao: ipca_e_cjf
+    regra_juros: mora_poupanca            # 0,5% a.m. ou 70% da Selic mensalizada,
+                                          # o menor; simples
+    status: vigente
+    fundamento: >-
+      art. 1º-F Lei 9.494/97 (red. Lei 11.960/2009); Tema 810/STF e Tema 905/STJ
+
+  - id: 2021_12_09_a_2025_09_09
+    vigencia_ini: 2021-12-09
+    vigencia_fim: 2025-09-09
+    regra_correcao: selic_unica           # engloba correção e juros; vedado fracionar
+    regra_juros: incluida_na_selic
+    status: vigente
+    fundamento: >-
+      art. 3º EC 113/2021, redação original; Tema 1.419/STF
+
+  # -------------------------------------------------------------------------
+  # LACUNA pós-10/09/2025 (fase pré-requisitório): três teses concorrentes.
+  # O motor NÃO escolhe — apresenta cenários A/B/C. Ver docs/VIGILANCIA_NORMATIVA.md
+  # e engine/regime/cenarios_ec136.yaml.
+  # -------------------------------------------------------------------------
+  - id: pos_2025_09_10_pre_requisitorio
+    vigencia_ini: 2025-09-10
+    vigencia_fim: null                    # até expedição de requisitório
+    regra_correcao: lacuna_ec136          # resolve-se por cenários, nunca único
+    regra_juros: lacuna_ec136
+    status: controvertido
+    fundamento: >-
+      EC 136/2025 revogou o art. 3º da EC 113; STJ, REsp 2.236.270/SP
+      (Rel. Min. Gurgel de Faria, pub. 02/03/2026), restringiu a nova redação
+      aos requisitórios. Três teses concorrentes — ver cenarios_ec136.yaml.
+
+  # -------------------------------------------------------------------------
+  # Após expedição de precatório/RPV — escopo distinto (não é janela temporal
+  # pura; depende do marco `requisitorio`). Modelado à parte na Fase 2.
+  # -------------------------------------------------------------------------
+  - id: pos_requisitorio
+    vigencia_ini: null                    # ativada pelo marco requisitorio, não por data
+    vigencia_fim: null
+    regra_correcao: ipca_pos_requisitorio # IPCA + juros simples 2% a.a., trava Selic
+    regra_juros: mora_2_aa_trava_selic
+    status: vigente
+    depende_de_marco: requisitorio
+    fundamento: >-
+      art. 3º EC 113/2021 c/ red. EC 136/2025; art. 97, §16 e §16-A, ADCT

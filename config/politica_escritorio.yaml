@@ -1,0 +1,42 @@
+# =============================================================================
+# POLÍTICA DO ESCRITÓRIO — Value
+# =============================================================================
+# Estes parâmetros são DECISÕES JURÍDICAS E DE POLÍTICA, não escolhas técnicas.
+# Enquanto qualquer valor for a string PENDENTE, o sistema RECUSA emitir memorial.
+#
+# Não preencha por conta própria. Cada chave deve ser decidida pelo advogado
+# responsável e registrada com quem decidiu e quando (campos `decidido_por` /
+# `decidido_em`). Ver PROMPT_VALUE.md §5 e §14.
+# =============================================================================
+
+versao_politica: 0            # incrementar a cada alteração de qualquer chave
+decidido_por: PENDENTE
+decidido_em: PENDENTE
+
+pasep:
+  # salário mínimo cheio do ano OU proporcional aos meses trabalhados (1/12)
+  base: PENDENTE              # opções: "sm_cheio" | "proporcional_meses"
+  # ano-base OU exercício de pagamento do abono
+  ancoragem: PENDENTE         # opções: "ano_base" | "exercicio_pagamento"
+
+honorarios:
+  # citação, trânsito em julgado OU arbitramento
+  marco_juros: PENDENTE       # opções: "citacao" | "transito" | "arbitramento"
+  # valor da causa atualizado OU valor da condenação
+  base: PENDENTE              # opções: "valor_causa_atualizado" | "valor_condenacao"
+
+arredondamento:
+  # por parcela OU só no total
+  momento: PENDENTE           # opções: "por_parcela" | "so_no_total"
+  # modo e casas decimais (confirmar ROUND_HALF_UP, 2 casas)
+  modo: PENDENTE              # opções: "ROUND_HALF_UP" | "ROUND_HALF_EVEN"
+  casas: PENDENTE             # inteiro, tipicamente 2
+
+lacuna_ec136:
+  # tese principal para a lacuna pós-10/09/2025 (pré-requisitório).
+  # A: Selic corrida | B: CC arts. 389/406 (Lei 14.905/2024) | C: Temas 810/905
+  tese_principal: PENDENTE    # opções: "A" | "B" | "C"
+
+emissao:
+  # sempre os três cenários OU apenas o principal com nota de ressalva
+  cenarios: PENDENTE          # opções: "sempre_tres" | "principal_com_ressalva"

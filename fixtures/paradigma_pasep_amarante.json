@@ -1,0 +1,88 @@
+{
+  "_meta": {
+    "descricao": "Caso-paradigma nº 1 (PROMPT_VALUE.md §10). Aritmética já reproduzida integralmente pelo advogado. O motor deve bater AO CENTAVO.",
+    "processo": "0000392-65.2011.8.18.0037",
+    "comarca": "Amarante/PI",
+    "verba": "indenizacao_substitutiva_pasep",
+    "tolerancia_por_parcela_reais": "0.01",
+    "valores_como_string": "Todos os números monetários e fatores são strings para NUNCA transitarem por float.",
+    "oraculo": "B (parametrização) — mas serve também de âncora ao centavo para o motor"
+  },
+
+  "marcos": {
+    "citacao": "2011-10-25",
+    "nota_citacao": "juros excluem o mês inicial; a mora nasce da citação, não do vencimento de cada abono",
+    "correcao_ipca_e_ate": "2021-12",
+    "selic_dez2021_a_jul2026_percent": "55.3103",
+    "juros_poupanca_uniforme_percent": "48.9165"
+  },
+
+  "politica_assumida_no_paradigma": {
+    "pasep.base": "sm_cheio",
+    "pasep.ancoragem": "ano_base",
+    "honorarios.base": "valor_causa_atualizado",
+    "honorarios.percentual": "0.20",
+    "honorarios.fundamento": "20% do valor da causa, fixados em sentença anterior ao CPC/2015",
+    "nota": "Estes critérios estão AQUI apenas para reproduzir o paradigma. Na produção viram parâmetros de política (config/politica_escritorio.yaml), ver defeito nº 5."
+  },
+
+  "parcelas": [
+    {"ano": 2006, "salario_minimo": "350.00", "fator_ipca_e": "2.3492924649", "corrigido": "822.25", "juros": "402.22", "base_selic": "1224.47", "selic": "677.26", "atualizado": "1901.73"},
+    {"ano": 2007, "salario_minimo": "380.00", "fator_ipca_e": "2.2711258509", "corrigido": "863.03", "juros": "422.17", "base_selic": "1285.19", "selic": "710.84", "atualizado": "1996.03"},
+    {"ano": 2008, "salario_minimo": "415.00", "fator_ipca_e": "2.1447909444", "corrigido": "890.09", "juros": "435.40", "base_selic": "1325.49", "selic": "733.13", "atualizado": "2058.62"},
+    {"ano": 2009, "salario_minimo": "465.00", "fator_ipca_e": "2.0447005225", "corrigido": "950.79", "juros": "465.09", "base_selic": "1415.88", "selic": "783.12", "atualizado": "2199.00"},
+    {"ano": 2010, "salario_minimo": "510.00", "fator_ipca_e": "1.9462066354", "corrigido": "992.57", "juros": "485.53", "base_selic": "1478.10", "selic": "817.54", "atualizado": "2295.63"},
+    {"ano": 2011, "salario_minimo": "545.00", "fator_ipca_e": "1.8265282269", "corrigido": "995.46", "juros": "486.95", "base_selic": "1482.40", "selic": "819.92", "atualizado": "2302.32"}
+  ],
+
+  "totais_principal": {
+    "corrigido": "5514.18",
+    "juros": "2697.36",
+    "base_selic": "8211.53",
+    "selic": "4541.80",
+    "atualizado": "12753.33"
+  },
+
+  "honorarios": {
+    "percentual": "0.20",
+    "valor_causa": "5000.00",
+    "valor_causa_data": "2011-10",
+    "fator_correcao": "1.8101960511",
+    "corrigido": "9050.98",
+    "juros": "251.39",
+    "base_selic": "9302.37",
+    "selic": "5145.14",
+    "atualizado": "14447.51",
+    "honorarios": "2889.50"
+  },
+
+  "total_geral": "15642.83",
+
+  "defeitos_do_paradigma_a_corrigir": [
+    {
+      "n": 1,
+      "descricao": "Marco de juros dos honorários (2,7775%) diverge do principal (48,9165%) sem justificativa documentada.",
+      "acao": "Virar parâmetro explícito honorarios.marco_juros (política). Registrar como ADR."
+    },
+    {
+      "n": 2,
+      "descricao": "Rótulo 'Índice de correção – ago/20' é falso: o fator 1,8101960511 tem base out/2011.",
+      "acao": "Corrigir rótulo; resíduo de planilha. Nunca replicar."
+    },
+    {
+      "n": 3,
+      "descricao": "Somatório não normalizado: a planilha traz 15.642,84; o total correto é 15.642,83.",
+      "acao": "Normalizar arredondamento conforme política (momento/modo). Alvo do motor: 15.642,83."
+    },
+    {
+      "n": 4,
+      "descricao": "Fonte da Selic e modo de acumulação não declarados.",
+      "acao": "Tornar reproduzível: série BCB/SGS versionada, acumulação declarada. Requisito, não melhoria."
+    },
+    {
+      "n": 5,
+      "descricao": "Critério do PASEP (SM cheio, ancorado no ano-base) não explicitado.",
+      "acao": "Virar parâmetro de política (pasep.base, pasep.ancoragem)."
+    }
+  ]
+}

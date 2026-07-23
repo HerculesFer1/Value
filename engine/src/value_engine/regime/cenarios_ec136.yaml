@@ -1,0 +1,36 @@
+# =============================================================================
+# Cenários concorrentes para a LACUNA pós-10/09/2025 (pré-requisitório).
+# EC 136/2025 revogou o art. 3º da EC 113/2021. PROMPT_VALUE.md §3.
+#
+# Quando o cálculo atravessa 10/09/2025, o memorial OBRIGATORIAMENTE traz os três
+# cenários com o delta em reais e a fundamentação de cada um. O operador escolhe
+# qual vai como principal (config: lacuna_ec136.tese_principal); o sistema registra
+# quem escolheu e quando. O motor NÃO decide (§2.7).
+# =============================================================================
+
+cenarios:
+  - id: A
+    nome: Selic corrida
+    regra_correcao: selic_unica
+    regra_juros: incluida_na_selic
+    fundamento: >-
+      Tese de manutenção do regime da EC 113 enquanto não expedido requisitório;
+      adotada por câmaras do TJSP.
+
+  - id: B
+    nome: Código Civil (Lei 14.905/2024)
+    regra_correcao: ipca
+    regra_juros: taxa_legal_cc            # arts. 389 e 406 CC, red. Lei 14.905/2024
+    fundamento: >-
+      Código Civil, arts. 389 e 406 com redação da Lei 14.905/2024 (IPCA + taxa
+      legal), a partir de 10/09/2025.
+
+  - id: C
+    nome: Retorno aos Temas 810/905
+    regra_correcao: ipca_e_cjf
+    regra_juros: mora_poupanca
+    fundamento: >-
+      Retorno ao regime dos Temas 810/STF e 905/STJ (IPCA-E + poupança).
+    ressalva: >-
+      Registrar no relatório a objeção da vedação à repristinação
+      (art. 2º, §3º, LINDB).

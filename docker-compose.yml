@@ -1,0 +1,38 @@
+# Value — stack local / on-premise. NÃO expor à internet pública.
+# Serviços api e web ficam comentados até as Fases 4 e 6 existirem.
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-value}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+      POSTGRES_DB: ${POSTGRES_DB:-value}
+    # Bind apenas em localhost: banco não é acessível pela rede.
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-value}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # api:
+  #   build: ./api
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   env_file: .env
+  #   ports:
+  #     - "127.0.0.1:8000:8000"
+
+  # web:
+  #   build: ./web
+  #   depends_on: [api]
+  #   ports:
+  #     - "127.0.0.1:5173:5173"
+
+volumes:
+  db_data:

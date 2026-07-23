@@ -1,0 +1,89 @@
+/* =============================================================================
+   Value — tokens de design (PROMPT_VALUE.md §11)
+   Estrutura Apple (respiro, fio de cabelo, contenção); identidade cromática
+   oxblood (encadernação jurídica, selo, tinta de carimbo).
+   Modo claro e escuro, ambos de primeira classe. Derive TUDO daqui.
+   ============================================================================= */
+
+:root {
+  /* --- paleta (6 valores nomeados) — modo claro --- */
+  --superficie-base: #FBFBFD;
+  --superficie-elevada: #FFFFFF;
+  --fio: #D2D2D7;
+  --texto-primario: #1D1D1F;
+  --texto-secundario: #6E6E73;
+  --acento: #6B2737;          /* oxblood profundo — ações primárias, selo */
+
+  /* --- semânticos --- */
+  --conferido: #1D6F42;       /* conferido / homologado */
+  --alternativo: #B25E09;     /* cenário alternativo / tese controvertida */
+  --divergencia: var(--acento);
+
+  /* --- tipografia --- */
+  --fonte-texto: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui,
+    sans-serif;
+  --fonte-dados: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  /* escala restrita: 11 / 13 / 15 / 17 / 22 / 28 / 34 */
+  --t-11: 11px; --t-13: 13px; --t-15: 15px; --t-17: 17px;
+  --t-22: 22px; --t-28: 28px; --t-34: 34px;
+  /* pesos: 400, 500, 600 — nunca 700+ em texto corrido */
+  --peso-regular: 400; --peso-medio: 500; --peso-semibold: 600;
+
+  /* --- grade de 8pt --- */
+  --e-1: 4px; --e-2: 8px; --e-3: 16px; --e-4: 24px; --e-5: 32px; --e-6: 48px;
+
+  /* --- raio consistente --- */
+  --raio-cartao: 10px; --raio-controle: 8px; --raio-campo: 6px;
+
+  /* --- sombras suaves e curtas, jamais difusas --- */
+  --sombra-cartao: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.04);
+
+  /* --- movimento curto e contido --- */
+  --transicao: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --superficie-base: #1D1D1F;
+    --superficie-elevada: #2C2C2E;
+    --fio: #3A3A3C;
+    --texto-primario: #F5F5F7;
+    --texto-secundario: #98989D;
+    --acento: #A84D60;        /* oxblood claro no escuro */
+  }
+}
+
+/* Respeite prefers-reduced-motion. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --transicao: 0ms; }
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Base da aplicação. */
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--superficie-base);
+  color: var(--texto-primario);
+  font-family: var(--fonte-texto);
+  font-size: var(--t-15);
+  font-weight: var(--peso-regular);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Divisórias em fio de cabelo (1px, baixo contraste), não bordas pesadas. */
+.fio { border: 0; border-top: 1px solid var(--fio); }
+
+/* Números são o conteúdo: tabular, à direita, face monoespaçada de dados. */
+.dado-financeiro {
+  font-family: var(--fonte-dados);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Foco visível (piso de qualidade, acessibilidade AA). */
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+  border-radius: var(--raio-campo);
+}

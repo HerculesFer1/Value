@@ -1,0 +1,72 @@
+# =============================================================================
+# Value — raiz do workspace uv (monorepo Python)
+# =============================================================================
+# Membros do workspace são pacotes independentes com fronteiras rígidas.
+# `engine` é sagrado: sem I/O, sem rede, sem banco, sem relógio.
+# Ver docs/adr/0001-arquitetura-em-camadas.md
+# =============================================================================
+
+[tool.uv.workspace]
+members = ["engine", "api", "indices"]
+
+[tool.uv]
+# dependências de desenvolvimento compartilhadas por todo o workspace
+dev-dependencies = [
+    "pytest>=8.2",
+    "hypothesis>=6.100",
+    "pytest-cov>=5.0",
+    "ruff>=0.5",
+    "mypy>=1.10",
+]
+
+# ----------------------------------------------------------------------------
+# ruff — linter + formatter
+# ----------------------------------------------------------------------------
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["engine/src", "api/src", "indices/src"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",   # pycodestyle / pyflakes
+    "I",             # isort
+    "N",             # pep8-naming
+    "UP",            # pyupgrade
+    "B",             # bugbear
+    "A",             # flake8-builtins
+    "C4",            # comprehensions
+    "SIM",           # simplify
+    "RUF",
+]
+
+# ----------------------------------------------------------------------------
+# mypy — modo estrito. O motor não admite gradual typing.
+# ----------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_explicit = false
+plugins = ["pydantic.mypy"]
+mypy_path = ["engine/src", "api/src", "indices/src"]
+
+[[tool.mypy.overrides]]
+module = ["weasyprint.*", "openpyxl.*"]
+ignore_missing_imports = true
+
+# ----------------------------------------------------------------------------
+# pytest
+# ----------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["engine/tests", "api/tests", "indices/tests"]
+python_files = ["test_*.py"]
+addopts = "-ra --strict-markers --strict-config"
+markers = [
+    "paradigma: casos-paradigma reproduzidos de processos reais (Oráculo B)",
+    "sintetico: casos sintéticos contra a calculadora do CJF (Oráculo A)",
+    "propriedade: testes de propriedade (hypothesis)",
+]

@@ -1,0 +1,46 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.uv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# ---- Node / web ----
+node_modules/
+web/dist/
+web/.vite/
+*.tsbuildinfo
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# ---- Dados sigilosos (NUNCA versionar) ----
+# Títulos, memoriais, dados pessoais de exequentes, dumps de banco.
+data/
+*.dump
+*.sql.gz
+segredos/
+series/*.jsonl          # séries coletadas ficam fora do git; versionadas no banco
+!series/.gitkeep
+
+# ---- Sistema ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+!.vscode/extensions.json
