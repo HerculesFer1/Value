@@ -16,15 +16,20 @@ from __future__ import annotations
 from .models import EntradaCalculo, ResultadoCalculo
 from .regime import RegimeTemporal
 
+# O cálculo concreto do PASEP (única verba da v1) vive em `calculo.calcular_pasep`
+# e já reproduz o caso-paradigma ao centavo. Este entrypoint genérico orquestrará,
+# na sequência da Fase 2, a resolução por janelas de regime, a prescrição e os
+# cenários da lacuna EC 136 sobre a `EntradaCalculo` genérica do §8.
+
 
 def calcular(entrada: EntradaCalculo, regime: RegimeTemporal) -> ResultadoCalculo:
-    """Calcula o memorial. Função pura, determinística, em Decimal.
+    """Orquestrador genérico (§8). Função pura, determinística, em Decimal.
 
     Onde o cálculo atravessa ponto controvertido (ex.: lacuna EC 136/2025 pós
-    10/09/2025), preenche `ResultadoCalculo.cenarios` e NÃO escolhe um número
-    único (§2.7).
+    10/09/2025), preencherá `ResultadoCalculo.cenarios` e NÃO escolherá número
+    único (§2.7). Para o PASEP da v1, use `calculo.calcular_pasep`.
     """
     raise NotImplementedError(
-        "Orquestração do cálculo: Fase 2. Requer correção, juros, prescrição e "
-        "cenários implementados, e a política do escritório definida (§5)."
+        "Orquestrador genérico §8: continuação da Fase 2 (resolução por janelas de "
+        "regime, prescrição, cenários). O cálculo do PASEP está em calcular_pasep."
     )

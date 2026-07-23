@@ -1,0 +1,61 @@
+# ADR 0004 — Aritmética do motor e momento de arredondamento
+
+- **Status:** aceito (derivado e provado contra o paradigma na Fase 2)
+- **Data:** 2026-07-23
+- **Contexto:** PROMPT_VALUE.md §2.1, §5, §10; ADR 0003
+
+## Contexto
+
+O critério de aceite da Fase 2 é reproduzir o caso-paradigma ao centavo. Derivamos
+empiricamente, do próprio paradigma, a cadeia aritmética e a regra de arredondamento
+que o reproduzem — em vez de assumir uma regra e torcer para bater.
+
+## Decisão — cadeia de precisão plena, arredonda só o resultado
+
+Por parcela, tudo em `Decimal` com precisão plena, arredondando **apenas** o
+`atualizado`:
+
+```
+corrigido  = valor_base × fator_correcao          (fator IPCA-E do CJF)
+juros      = corrigido × taxa_juros               (simples, uniforme desde a citação)
+base       = corrigido + juros
+selic      = base × taxa_selic                     (EC 113, soma simples — ADR 0003)
+atualizado = arredondar(base + selic)              (por política)
+```
+
+Prova (Selic 55,3103%, momento `por_parcela`, `ROUND_HALF_UP`, 2 casas):
+
+| momento | total principal | parcelas ao centavo |
+|---|---|---|
+| `por_parcela` | **12.753,33 ✓** | **6/6 ✓** |
+| `so_no_total` | 12.753,34 ✗ | 6/6 |
+
+Arredondar colunas intermediárias (corrigido, juros) antes de somar **quebra** a
+reprodução — por isso a precisão é plena até o `atualizado`.
+
+O **momento** de arredondamento é chave `PENDENTE` da política (§5). A regra que
+reproduz o paradigma é `por_parcela`; o motor a recebe como parâmetro e não decide.
+
+## Defeito nº 6 (observado agora): precisão da Selic dividida no paradigma
+
+O principal usou a Selic a **55,3103%** (precisão de série diária), mas os
+honorários usaram **55,3100%** (Selic a 2 casas, série 4390) — a mesma Selic, em
+duas precisões. É o que faz os honorários fecharem em **2.889,50** e o total geral
+em **15.642,83** (o total que o §10 declara correto, corrigindo o defeito nº 3).
+
+Se padronizarmos a precisão alta (55,3103%) também nos honorários, o resultado
+consistente é **2.889,51** e total **15.642,84**. Ou seja: o total "correto"
+declarado (15.642,83) embute a inconsistência de precisão do paradigma.
+
+**Decisão pendente (jurídica/política):** padronizar a Selic numa única precisão
+(recomendado: a de série diária, 55,3103%, para todas as verbas) e aceitar que o
+total normalizado passa a 15.642,84; ou preservar a precisão do paradigma. Enquanto
+não decidido, a fixture declara ambos os números e o motor honra o valor declarado.
+
+## Consequências
+
+`calculo.calcular_pasep` implementa esta cadeia e é coberto por testes de paradigma
+(ao centavo) e de propriedade (soma=total, invariância à ordem, determinismo). A
+prescrição (Súmula 85 STJ) e as funções de correção/juros são puras e testadas. A
+resolução por janelas de regime e os cenários EC 136 seguem para a continuação da
+Fase 2.

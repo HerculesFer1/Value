@@ -1,13 +1,12 @@
-"""Corte prescricional. FASE 2 — esqueleto tipado.
+"""Corte prescricional — Súmula 85 do STJ (Fase 2).
 
-Súmula 85 do STJ (não do STF): nas relações de trato sucessivo com a Fazenda
-Pública, quando não negado o próprio direito, a prescrição atinge apenas as
-prestações vencidas antes do quinquênio anterior à propositura (Decreto 20.910/32,
-art. 1º). PROMPT_VALUE.md §3.
+Nas relações de trato sucessivo com a Fazenda Pública, quando não negado o próprio
+direito, a prescrição atinge apenas as prestações vencidas antes do quinquênio
+anterior à propositura (Decreto 20.910/32, art. 1º). PROMPT_VALUE.md §3.
 
-Propriedades exigidas (testes de propriedade, §10):
-  * idempotência: cortar duas vezes = cortar uma vez;
-  * monotonicidade: mais tempo nunca reduz o valor.
+Função pura e determinística; idempotente por construção. Quando o próprio direito
+foi negado, o corte é outro (fundo de direito) — caso a tratar à parte, com decisão
+jurídica; este corte assume trato sucessivo com direito não negado.
 """
 
 from __future__ import annotations
@@ -17,11 +16,21 @@ from datetime import date
 from .models import Parcela
 
 
+def _quinquenio_antes(quando: date) -> date:
+    """Data cinco anos antes de `quando`, tratando 29/02 → 28/02."""
+    try:
+        return quando.replace(year=quando.year - 5)
+    except ValueError:  # 29/02 em ano não bissexto
+        return quando.replace(year=quando.year - 5, day=28)
+
+
 def cortar(
     parcelas: tuple[Parcela, ...], data_ajuizamento: date
 ) -> tuple[Parcela, ...]:
-    """Remove as parcelas vencidas antes do quinquênio anterior à propositura.
+    """Mantém as parcelas vencidas dentro do quinquênio anterior à propositura.
 
-    Função pura e determinística; idempotente por construção.
+    Prescrevem as vencidas ANTES do corte; preservam-se as com vencimento no corte
+    ou depois. Idempotente: cortar de novo não remove mais nada.
     """
-    raise NotImplementedError("Corte prescricional (Súmula 85 STJ): Fase 2.")
+    corte = _quinquenio_antes(data_ajuizamento)
+    return tuple(p for p in parcelas if p.vencimento >= corte)

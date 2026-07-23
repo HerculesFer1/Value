@@ -1,24 +1,19 @@
-"""Correção monetária. FASE 2 — esqueleto tipado.
+"""Correção monetária — aplicação de fator (Fase 2).
 
-A fonte primária de correção é a tabela do CJF (Manual de Orientação; versão
-vigente Res. CJF nº 990, de 13/07/2026). Não recalcular IPCA-E por conta própria.
-Divergência entre a tabela do CJF e o índice bruto do IBGE gera ALERTA, não
-correção silenciosa (PROMPT_VALUE.md §7).
+A fonte primária de correção é a tabela do CJF (Manual; Res. CJF nº 990/2026). O
+motor NÃO recalcula IPCA-E: recebe o fator já obtido da série oficial versionada e
+o aplica. Divergência entre a tabela do CJF e o índice bruto do IBGE gera alerta no
+`indices/`, não correção silenciosa (PROMPT_VALUE.md §7).
 
-Não fabricar fatores aqui: eles vêm da série oficial versionada, injetada pela api.
+Função pura, precisão plena (sem arredondar aqui — o arredondamento acontece no
+momento definido pela política, ver `calculo.arredondar`).
 """
 
 from __future__ import annotations
 
-from datetime import date
-
 from .tipos import Dinheiro, Fator
 
 
-def corrigir(valor: Dinheiro, de: date, ate: date, fator: Fator) -> Dinheiro:
-    """Aplica um fator de correção já obtido da série oficial.
-
-    O motor não decide qual índice: recebe o fator correspondente à janela de
-    regime e à série versionada. Determinístico, em Decimal.
-    """
-    raise NotImplementedError("Correção monetária: Fase 2.")
+def corrigir(valor: Dinheiro, fator: Fator) -> Dinheiro:
+    """Valor corrigido = valor × fator, em Decimal, sem arredondar."""
+    return valor * fator
